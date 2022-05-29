@@ -1,0 +1,54 @@
+#服务配置，设置 gin 的运行模式、默认的 HTTP 监听端口、允许读取和写入的最大持续时间。
+Server:
+  RunMode: debug
+  HttpPort: 8000
+  ReadTimeout: 60
+  WriteTimeout: 60
+#应用配置，设置默认每页数量、所允许的最大每页数量以及默认的应用日志存储路径。
+App:
+  DefaultPageSize: 10
+  MaxPageSize: 100
+  LogSavePath: storage/logs
+  LogFileName: app
+  LogFileExt: .log
+  # 上传文件的最终保存目录。
+  UploadSavePath: storage/uploads
+  # 上传文件后的用于展示的文件服务地址。
+  UploadServerUrl: http://127.0.0.1:8000/static
+  # 上传文件所允许的最大空间大小（MB）。
+  UploadImageMaxSize: 5  # MB
+  # 上传文件所允许的文件后缀。
+  UploadImageAllowExts:
+    - .jpg
+    - .jpeg
+    - .png
+    - .txt
+#数据库配置，主要是连接实例所必需的基础参数。
+Database:
+  DBType: mysql
+  Username: root
+  Password: 123456
+  Host: 127.0.0.1:3306
+  DBName: blog_service
+  TablePrefix: blog_
+  Charset: utf8
+  ParseTime: True
+  MaxIdleConns: 10
+  MaxOpenConns: 30
+
+#设置了 JWT 令牌的 Secret（密钥）为 ck，
+#  签发者（Issuer）是 blog-service，有效时间（Expire）为 720000 秒
+JWT:
+  Secret: ck
+  Issuer: blog-service
+  Expire: 720000
+
+Email:
+  Host: smtp.qq.com
+  Port: 465
+  UserName: 276128749@qq.com
+  Password: 88888
+  IsSSL: true
+  From: 276128749@qq.com
+  To:
+    - 1091480019@qq.com
