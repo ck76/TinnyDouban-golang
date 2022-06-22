@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"tinnydouban/pkg/app"
@@ -20,6 +21,7 @@ func JWT() gin.HandlerFunc {
 		}
 		if token == "" {
 			ecode = errcode.InvalidParams
+			fmt.Print("aaaaaaaaaa")
 		} else {
 			_, err := app.ParseToken(token)
 			if err != nil {

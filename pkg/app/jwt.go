@@ -2,14 +2,14 @@ package app
 
 import (
 	"github.com/dgrijalva/jwt-go"
+	"time"
 	"tinnydouban/global"
 	"tinnydouban/pkg/util"
-	"time"
 )
 
 //这块主要涉及 JWT 的一些基本属性，
 //第一个是 GetJWTSecret 方法，用于获取该项目的 JWT Secret，目前我们是直接使用配置所配置的 Secret，
-//第二个是 Claims 结构体，分为两大块，第一块是我们所嵌入的 AppKey 和 AppSecret，用于我们自定义的认证信息，
+//第二个是 Claims 结构体，分为两大块，第一块是我们所嵌入的 Name 和 Password，用于我们自定义的认证信息，
 //第二块是 jwt.StandardClaims 结构体，它是 jwt-go 库中预定义的
 type Claims struct {
 	AppKey    string `json:"app_key"`
@@ -23,7 +23,7 @@ func GetJWTSecret() []byte {
 
 //在 GenerateToken 方法中，它承担了整个流程中比较重要的职责，
 //也就是生成 JWT Token 的行为，
-//主体的函数流程逻辑是根据客户端传入的 AppKey 和 AppSecret
+//主体的函数流程逻辑是根据客户端传入的 Name 和 Password
 //以及在项目配置中所设置的签发者（Issuer）和过期时间（ExpiresAt），
 //根据指定的算法生成签名后的 Token。这其中涉及两个的内部方法，如下：
 //

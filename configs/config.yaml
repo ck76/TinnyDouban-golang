@@ -29,8 +29,8 @@ Database:
   Username: root
   Password: 123456
   Host: 127.0.0.1:3306
-  DBName: blog_service
-  TablePrefix: blog_
+  DBName: tinny_douban
+  TablePrefix: ttmt_
   Charset: utf8
   ParseTime: True
   MaxIdleConns: 10
@@ -40,7 +40,7 @@ Database:
 #  签发者（Issuer）是 blog-service，有效时间（Expire）为 720000 秒
 JWT:
   Secret: ck
-  Issuer: blog-service
+  Issuer: tinny-douban-service
   Expire: 720000
 
 Email:

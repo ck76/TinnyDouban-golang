@@ -1,3 +1,3 @@
-package admin
+package dao
 
 //Service的impl层
