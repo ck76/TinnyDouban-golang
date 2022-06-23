@@ -2,14 +2,14 @@ package routers
 
 import (
 	"github.com/gin-gonic/gin"
-	swaggerFiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
+	"github.com/swaggo/files"
+	"github.com/swaggo/gin-swagger"
 	"net/http"
 	"time"
 	_ "tinnydouban/docs"
 	"tinnydouban/global"
 	"tinnydouban/internal/middleware"
-	v1 "tinnydouban/internal/routers/api/v1"
+	"tinnydouban/internal/routers/api/v1"
 	"tinnydouban/pkg/limiter"
 )
 
@@ -22,7 +22,8 @@ var methodLimiters = limiter.NewMethodLimiter().AddBuckets(limiter.LimiterBucket
 
 func NewRouter() *gin.Engine {
 	engine := gin.New()
-
+	engine.Use(middleware.Cors()) //开启中间件 允许使用跨域请求
+	//engine.Use(cors.Default())
 	if global.ServerSetting.RunMode == "debug" {
 		engine.Use(gin.Logger())
 		engine.Use(gin.Recovery())
@@ -40,13 +41,16 @@ func NewRouter() *gin.Engine {
 	engine.POST("/auth", v1.GetAuth)
 	engine.POST("/login", v1.Login)
 	engine.POST("/register", v1.Register)
+	//卧槽？必须放group里才可以cros？？？？？
+	root := engine.Group("/")
+	root.GET("UserList", v1.GetUserList)
 
 	//访问 $HOST/static 时，应用程序会读取到 blog-service/storage/uploads 下的文件
 	engine.StaticFS("/static", http.Dir(global.AppSetting.UploadSavePath))
 	group := engine.Group("/api/v1")
-	group.Use(middleware.JWT())
-	{
-		group.GET("/UserList", v1.GetUserList)
-	}
+	//group.Use(middleware.JWT())
+	//{
+	group.GET("/UserList", v1.GetUserList)
+	//}
 	return engine
 }
