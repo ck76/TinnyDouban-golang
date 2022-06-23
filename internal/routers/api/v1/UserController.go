@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"tinnydouban/internal/service"
 	"tinnydouban/pkg/app"
@@ -12,6 +13,7 @@ import (
 
 //curl -v -X POST 'http://127.0.0.1:8000/auth?app_key=eddycjy&app_secret=go-programming-tour-book'
 func Login(c *gin.Context) {
+	fmt.Print("login cccccccccccccccccccccccccccccccccccccccc")
 	param := service.LoginRequest{}
 	response := app.NewResponse(c)
 	valid, errs := app.BindAndValid(c, &param)
@@ -67,6 +69,7 @@ func Register(c *gin.Context) {
 		response.ToErrorResponse(errcode.UnauthorizedTokenGenerate)
 		return
 	}
+
 	response.ToResponse(gin.H{
 		"token":    token,
 		"name":     param.Name,

@@ -23,6 +23,7 @@ require (
 	github.com/mattn/go-isatty v0.0.14 // indirect
 	github.com/mitchellh/mapstructure v1.4.2 // indirect
 	github.com/pelletier/go-toml v1.9.4 // indirect
+	github.com/rs/cors/wrapper/gin v0.0.0-20220619195839-da52b0701de5
 	github.com/satori/go.uuid v1.2.0 // indirect
 	github.com/spf13/afero v1.6.0 // indirect
 	github.com/spf13/cast v1.4.1 // indirect
@@ -35,9 +36,6 @@ require (
 	github.com/swaggo/swag v1.7.3
 	github.com/ugorji/go v1.2.6 // indirect
 	github.com/urfave/cli v1.22.5 // indirect
-	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519 // indirect
-	golang.org/x/net v0.0.0-20211013171255-e13a2654a71e // indirect
-	golang.org/x/sys v0.0.0-20211013075003-97ac67df715c // indirect
 	golang.org/x/tools v0.1.7 // indirect
 	google.golang.org/protobuf v1.27.1 // indirect
 	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
