@@ -3,11 +3,11 @@ package dao
 import "github.com/jinzhu/gorm"
 
 type Dao struct {
-	engine *gorm.DB
+	Engine *gorm.DB
 }
 
 func New(engine *gorm.DB) *Dao {
 	return &Dao{
-		engine: engine,
+		Engine: engine,
 	}
 }

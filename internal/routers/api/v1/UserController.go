@@ -11,10 +11,14 @@ import (
 //这块的逻辑主要是校验及获取入参后，绑定并获取到的 app_key 和 app_secrect 进行数据库查询，
 //检查认证信息是否存在，若存在则进行 Token 的生成并返回。
 
+/**
+纯纯参数校验和转发
+*/
+
 //curl -v -X POST 'http://127.0.0.1:8000/auth?app_key=eddycjy&app_secret=go-programming-tour-book'
 func Login(c *gin.Context) {
 	fmt.Print("login cccccccccccccccccccccccccccccccccccccccc")
-	param := service.LoginRequest{}
+	param := service.UserAuthRequest{}
 	response := app.NewResponse(c)
 	valid, errs := app.BindAndValid(c, &param)
 	if !valid {
@@ -46,7 +50,7 @@ func Login(c *gin.Context) {
 
 //curl -v -X POST 'http://127.0.0.1:8000/auth?app_key=eddycjy&app_secret=go-programming-tour-book'
 func Register(c *gin.Context) {
-	param := service.LoginRequest{}
+	param := service.UserAuthRequest{}
 	response := app.NewResponse(c)
 	valid, errs := app.BindAndValid(c, &param)
 	if !valid {
@@ -88,5 +92,52 @@ func GetUserList(c *gin.Context) {
 
 	response.ToResponse(gin.H{
 		"users": us,
+	})
+}
+
+func UpadtePassword(c *gin.Context) {
+	param := service.UserAuthRequest{}
+	response := app.NewResponse(c)
+	valid, errs := app.BindAndValid(c, &param)
+	if !valid {
+		//global.Logger.Errorf("app.BindAndValid errs: %v", errs)
+		response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()...))
+		return
+	}
+
+	svc := service.New(c.Request.Context())
+	err := svc.UpdatePassword(&param)
+	if err != nil {
+		//global.Logger.Errorf("svc.CheckAuth err: %v", err)
+		response.ToErrorResponse(errcode.UnauthorizedAuthNotExist)
+		return
+	}
+
+	response.ToResponse(gin.H{
+		"name":     param.Name,
+		"password": param.Password,
+	})
+}
+
+func GetUserByToken(c *gin.Context) {
+	param := service.UserAuthRequest{}
+	response := app.NewResponse(c)
+	valid, errs := app.BindAndValid(c, &param)
+	if !valid {
+		//global.Logger.Errorf("app.BindAndValid errs: %v", errs)
+		response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()...))
+		return
+	}
+
+	svc := service.New(c.Request.Context())
+	user, err := svc.GetUserByToken(&param)
+	if err != nil {
+		//global.Logger.Errorf("svc.CheckAuth err: %v", err)
+		response.ToErrorResponse(errcode.UnauthorizedAuthNotExist)
+		return
+	}
+
+	response.ToResponse(gin.H{
+		"user": user,
 	})
 }
